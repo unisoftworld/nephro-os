@@ -146,7 +146,7 @@ export default function ScheduleView() {
                               : 'bg-advisory-50 border border-advisory-100'
                           }`}>
                             <div className="flex items-center gap-1.5">
-                              <div className={`w-4 h-4 rounded-full flex items-center justify-center text-7 font-semibold ${
+                              <div className={`w-4 h-4 rounded-full flex items-center justify-center text-9 font-semibold ${
                                 item.status === 'active'
                                   ? 'bg-saline-200 text-saline-600'
                                   : item.status === 'completed'
