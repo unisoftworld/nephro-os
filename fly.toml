@@ -1,0 +1,27 @@
+# fly.toml — Nephro OS API / Backend (future)
+# App name: nephro-os-api
+# Deploy with: fly deploy
+
+app = "nephro-os-api"
+primary_region = "fra"
+
+[build]
+  # Dockerfile or builder goes here when backend is added
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1
+
+[env]
+  PORT = "8080"
+  # DATABASE_URL — set via: fly secrets set DATABASE_URL="..."
+  # REDIS_URL    — set via: fly secrets set REDIS_URL="..."
