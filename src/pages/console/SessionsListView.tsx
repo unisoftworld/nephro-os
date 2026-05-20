@@ -20,7 +20,7 @@ function StatusBadge({ status }: { status: string }) {
     scheduled: { text: 'Scheduled', class: 'badge-info' },
     advisory: { text: 'Advisory', class: 'badge-advisory' },
     critical: { text: 'Critical', class: 'badge-critical' },
-    completed: { text: 'Completed', class: 'inline-flex items-center h-20 px-7 rounded-pill text-11 font-medium bg-ink-900/[0.04] text-ink-400' },
+    completed: { text: 'Completed', class: 'badge-neutral' },
   };
   const c = configs[status] || configs.scheduled;
   return <span className={c.class}>{c.text}</span>;

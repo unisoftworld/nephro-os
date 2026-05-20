@@ -65,9 +65,10 @@ export default function LabsView() {
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={trendData}>
               <XAxis dataKey="month" tick={{ fontSize: 11, fill: '#5C6781' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 11, fill: '#5C6781' }} axisLine={false} tickLine={false} domain={[9, 12]} />
-              <Line type="monotone" dataKey="Hb" stroke="#128B92" strokeWidth={2} dot={{ r: 3, fill: '#128B92' }} />
-              <Line type="monotone" dataKey="KtV" stroke="#A88842" strokeWidth={2} dot={{ r: 3, fill: '#A88842' }} />
+              <YAxis yAxisId="left" tick={{ fontSize: 11, fill: '#5C6781' }} axisLine={false} tickLine={false} domain={[9, 12]} width={32} />
+              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11, fill: '#5C6781' }} axisLine={false} tickLine={false} domain={[1.2, 1.6]} width={32} />
+              <Line yAxisId="left" type="monotone" dataKey="Hb" stroke="#128B92" strokeWidth={2} dot={{ r: 3, fill: '#128B92' }} />
+              <Line yAxisId="right" type="monotone" dataKey="KtV" stroke="#A88842" strokeWidth={2} dot={{ r: 3, fill: '#A88842' }} />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -92,7 +93,7 @@ export default function LabsView() {
                 <tr key={i} className="border-b border-ink-900/[0.04] hover:bg-saline-50/[0.3] transition-colors">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-6 h-6 rounded-full bg-saline-100 flex items-center justify-center text-8 font-semibold text-saline-600">{lab.initials}</div>
+                      <div className="w-6 h-6 rounded-full bg-saline-100 flex items-center justify-center text-9 font-semibold text-saline-600">{lab.initials}</div>
                       <div>
                         <p className="text-12 font-medium text-ink-900">{lab.patient}</p>
                         <p className="data-mono text-10 text-ink-400">{lab.code}</p>

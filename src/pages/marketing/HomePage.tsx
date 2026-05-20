@@ -94,7 +94,7 @@ export default function HomePage() {
             alt=""
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-ink-900/92 via-ink-900/78 to-ink-900/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-ink-950/96 via-ink-900/84 to-ink-900/54" />
         </div>
 
         <div className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-8">
@@ -106,7 +106,7 @@ export default function HomePage() {
                 variants={fadeUp as any}
                 initial="hidden"
                 animate="visible"
-                className="text-12 uppercase tracking-[0.1em] text-saline-300 font-semibold mb-6"
+                className="text-12 uppercase tracking-[0.1em] text-saline-200 font-semibold mb-6"
               >
                 The Operating System for Renal Care
               </motion.p>
@@ -128,7 +128,7 @@ export default function HomePage() {
                 variants={fadeUp as any}
                 initial="hidden"
                 animate="visible"
-                className="text-15 text-ink-200 leading-relaxed mb-8 max-w-md"
+                className="text-15 text-white/80 leading-relaxed mb-8 max-w-md"
               >
                 NephroOS is the renal-native SaaS platform for dialysis centers,
                 vascular surgery clinics, and multi-branch healthcare groups in
@@ -170,7 +170,7 @@ export default function HomePage() {
                   {trustBadges.map((badge) => (
                     <span
                       key={badge}
-                      className="inline-flex items-center gap-1.5 h-6 px-2.5 rounded-pill text-11 font-medium bg-white/10 text-ink-200 border border-white/[0.08]"
+                      className="inline-flex items-center gap-1.5 h-6 px-2.5 rounded-pill text-11 font-medium bg-ink-950/35 text-white/80 border border-white/[0.14]"
                     >
                       <Check size={10} className="text-saline-300" />
                       {badge}
@@ -458,7 +458,6 @@ export default function HomePage() {
       <section className="py-20 lg:py-24 bg-white">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
           <div className="nephro-card bg-ink-900 text-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-saline-500/[0.08] blur-3xl" />
             <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
               <div>
                 <div className="flex gap-1 mb-4">

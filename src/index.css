@@ -150,12 +150,12 @@
 
   /* NephroOS Card */
   .nephro-card {
-    @apply bg-white border border-ink-900/[0.06] rounded-lg p-5;
+    @apply bg-white border border-ink-900/[0.06] rounded-lg p-[18px];
   }
 
   /* NephroOS Button base */
   .nephro-btn {
-    @apply inline-flex items-center justify-center gap-6 px-12 h-32 rounded-8 text-13 font-medium tracking-[-0.005em] transition-all duration-120;
+    @apply inline-flex items-center justify-center gap-[6px] px-[12px] h-[32px] rounded-8 text-13 font-medium tracking-[-0.005em] transition-all duration-120;
     transition-timing-function: var(--ease-out);
   }
 
@@ -175,6 +175,9 @@
   .badge-brand {
     @apply inline-flex items-center gap-[5px] h-[20px] px-[8px] rounded-pill text-11 font-medium bg-saline-50 text-saline-700;
   }
+  .badge-neutral {
+    @apply inline-flex items-center gap-[5px] h-[20px] px-[8px] rounded-pill text-11 font-medium bg-ink-900/[0.04] text-ink-400;
+  }
 
   /* Live indicator */
   .live-indicator {
@@ -190,7 +193,7 @@
 
   /* AI Panel Dark */
   .ai-panel {
-    @apply bg-ink-900 text-white rounded-lg p-5 relative overflow-hidden;
+    @apply bg-ink-900 text-white rounded-lg p-[18px] relative overflow-hidden;
     border: 1px solid rgba(255, 255, 255, 0.06);
   }
   .ai-panel::after {

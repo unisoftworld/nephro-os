@@ -171,18 +171,6 @@ module.exports = {
         '64': ['4rem', { lineHeight: '1.05' }],
         '80': ['5rem', { lineHeight: '1' }],
       },
-      spacing: {
-        '1px': '1px',
-        '4': '4px',
-        '8': '8px',
-        '12': '12px',
-        '16': '16px',
-        '24': '24px',
-        '32': '32px',
-        '48': '48px',
-        '64': '64px',
-        '96': '96px',
-      },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",
         lg: "var(--radius)",
@@ -203,6 +191,9 @@ module.exports = {
         'raised': '0 1px 2px rgba(10, 18, 36, 0.04), 0 4px 12px rgba(10, 18, 36, 0.06)',
         'overlay': '0 4px 8px rgba(10, 18, 36, 0.06), 0 16px 32px rgba(10, 18, 36, 0.10)',
         'focus': '0 0 0 3px rgba(18, 139, 146, 0.20)',
+      },
+      transitionDuration: {
+        '120': '120ms',
       },
       keyframes: {
         "accordion-down": {

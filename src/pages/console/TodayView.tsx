@@ -47,7 +47,7 @@ function StatusBadge({ status }: { status: string }) {
       );
     case 'empty':
       return (
-        <span className="inline-flex items-center h-20 px-7 rounded-pill text-11 font-medium bg-ink-900/[0.04] text-ink-300">
+        <span className="badge-neutral">
           Empty
         </span>
       );
