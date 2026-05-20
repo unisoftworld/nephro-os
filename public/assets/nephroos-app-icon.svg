@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-label="NephroOS app icon">
+  
+  <defs>
+    <clipPath id="squircle">
+      <path d="M0 90 C0 30, 30 0, 90 0 H166 C226 0, 256 30, 256 90 V166 C256 226, 226 256, 166 256 H90 C30 256, 0 226, 0 166 Z"></path>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#squircle)">
+    <rect width="256" height="256" fill="#0A1224"></rect>
+    
+    <rect x="6" y="6" width="244" height="244" rx="84" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"></rect>
+    
+    <g transform="translate(48 48) scale(2.5)">
+      <rect x="8" y="8" width="10" height="48" rx="3" fill="#2FA6AC"></rect>
+      <rect x="46" y="8" width="10" height="48" rx="3" fill="#2FA6AC"></rect>
+      <path d="M18 11 Q 18 32, 32 32 T 46 53" stroke="#2FA6AC" stroke-width="10" stroke-linecap="round" fill="none"></path>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-label="NephroOS favicon">
+  <rect width="32" height="32" rx="6" fill="#0A1224"></rect>
+  
+  <rect x="6" y="6" width="4" height="20" rx="1.5" fill="#2FA6AC"></rect>
+  <rect x="22" y="6" width="4" height="20" rx="1.5" fill="#2FA6AC"></rect>
+  <path d="M10 8 Q 10 16, 16 16 T 22 24" stroke="#2FA6AC" stroke-width="4" stroke-linecap="round" fill="none"></path>
+</svg>

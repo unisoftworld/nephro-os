@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* NephroOS Semantic Tokens */
+    --background: 40 11% 96%; /* neutral-50 mist */
+    --foreground: 222 50% 8%; /* ink-900 */
+    --card: 0 0% 100%;
+    --card-foreground: 222 50% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 50% 8%;
+    --primary: 183 78% 32%; /* saline-500 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 40 11% 96%;
+    --secondary-foreground: 222 50% 8%;
+    --muted: 38 12% 92%;
+    --muted-foreground: 222 24% 30%;
+    --accent: 38 43% 46%;
+    --accent-foreground: 222 50% 8%;
+    --destructive: 350 56% 46%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 222 50% 8% / 0.06;
+    --input: 222 50% 8% / 0.06;
+    --ring: 183 78% 32%;
+    --radius: 0.5rem;
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 50% 8%;
+    --sidebar-primary: 183 78% 32%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 183 78% 32% / 0.1;
+    --sidebar-accent-foreground: 183 78% 32%;
+    --sidebar-border: 222 50% 8% / 0.06;
+    --sidebar-ring: 183 78% 32%;
+
+    /* Surface */
+    --surface-canvas: #F6F5F2;
+    --surface-raised: #FFFFFF;
+    --surface-sunken: #ECEAE5;
+    --surface-inverse: #0A1224;
+    --surface-overlay: rgba(10, 18, 36, 0.40);
+
+    /* Foreground */
+    --fg-primary: #0A1224;
+    --fg-secondary: #3A465F;
+    --fg-tertiary: #5C6781;
+    --fg-quaternary: #8893AC;
+    --fg-inverse: #FFFFFF;
+    --fg-onbrand: #FFFFFF;
+
+    /* Semantic */
+    --brand: #128B92;
+    --brand-hover: #0B7077;
+    --brand-active: #0A595F;
+    --brand-soft: #ECF8F8;
+    --brand-soft-fg: #0A595F;
+    --accent-champagne: #A88842;
+
+    /* Status */
+    --stable: #2F7D4A;
+    --stable-soft: #E8F3EC;
+    --advisory: #B57F18;
+    --advisory-soft: #FAF1DF;
+    --critical: #B8324A;
+    --critical-soft: #F8E7E9;
+    --info: #2F6BB3;
+    --info-soft: #E8F0F8;
+
+    /* Elevation */
+    --shadow-rest: none;
+    --shadow-raised: 0 1px 2px rgba(10, 18, 36, 0.04), 0 4px 12px rgba(10, 18, 36, 0.06);
+    --shadow-overlay: 0 4px 8px rgba(10, 18, 36, 0.06), 0 16px 32px rgba(10, 18, 36, 0.10);
+    --shadow-focus: 0 0 0 3px rgba(18, 139, 146, 0.20);
+
+    /* Motion */
+    --ease-out: cubic-bezier(0.2, 0, 0, 1);
+    --dur-micro: 120ms;
+    --dur-state: 200ms;
+    --dur-sheet: 320ms;
+
+    /* Density */
+    --density-row: 44px;
+  }
+
+  .dark {
+    --background: 222 50% 4%;
+    --foreground: 40 11% 96%;
+    --card: 222 50% 6%;
+    --card-foreground: 40 11% 96%;
+    --popover: 222 50% 6%;
+    --popover-foreground: 40 11% 96%;
+    --primary: 183 60% 42%;
+    --primary-foreground: 222 50% 8%;
+    --secondary: 222 50% 10%;
+    --secondary-foreground: 40 11% 96%;
+    --muted: 222 50% 12%;
+    --muted-foreground: 222 20% 70%;
+    --accent: 38 43% 56%;
+    --accent-foreground: 222 50% 8%;
+    --destructive: 350 56% 56%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 100% / 0.06;
+    --input: 0 0% 100% / 0.06;
+    --ring: 183 60% 42%;
+
+    --surface-canvas: #060B18;
+    --surface-raised: #0A1224;
+    --surface-sunken: #0E182E;
+    --surface-inverse: #F6F5F2;
+    --fg-primary: #F6F5F2;
+    --fg-secondary: #B6BFD0;
+    --fg-tertiary: #8893AC;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-neutral-50 text-ink-900 font-sans antialiased;
+    font-feature-settings: 'cv11', 'ss01', 'ss03';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  html, body, #root {
+    height: 100%;
+  }
+}
+
+@layer components {
+  /* Data/monospace styling for clinical values */
+  .data-mono {
+    font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum', 'zero';
+    letter-spacing: 0;
+  }
+
+  /* Eyebrow label styling */
+  .eyebrow {
+    @apply text-12 uppercase tracking-[0.08em] text-ink-400 font-medium;
+  }
+
+  /* NephroOS Card */
+  .nephro-card {
+    @apply bg-white border border-ink-900/[0.06] rounded-lg p-5;
+  }
+
+  /* NephroOS Button base */
+  .nephro-btn {
+    @apply inline-flex items-center justify-center gap-6 px-12 h-32 rounded-8 text-13 font-medium tracking-[-0.005em] transition-all duration-120;
+    transition-timing-function: var(--ease-out);
+  }
+
+  /* Status badges */
+  .badge-stable {
+    @apply inline-flex items-center gap-5 h-20 px-7 rounded-pill text-11 font-medium bg-stable-50 text-stable-700;
+  }
+  .badge-advisory {
+    @apply inline-flex items-center gap-5 h-20 px-7 rounded-pill text-11 font-medium bg-advisory-50 text-advisory-700;
+  }
+  .badge-critical {
+    @apply inline-flex items-center gap-5 h-20 px-7 rounded-pill text-11 font-medium bg-critical-50 text-critical-700;
+  }
+  .badge-info {
+    @apply inline-flex items-center gap-5 h-20 px-7 rounded-pill text-11 font-medium bg-info-50 text-info-700;
+  }
+  .badge-brand {
+    @apply inline-flex items-center gap-5 h-20 px-7 rounded-pill text-11 font-medium bg-saline-50 text-saline-700;
+  }
+
+  /* Live indicator */
+  .live-indicator {
+    @apply inline-flex items-center gap-6 text-11 font-medium text-critical-700 data-mono;
+  }
+  .live-indicator::before {
+    content: '';
+    @apply w-7 h-7 rounded-full bg-critical-500;
+    animation: pulse-live 1.6s ease-in-out infinite;
+  }
+
+  /* AI Panel Dark */
+  .ai-panel {
+    @apply bg-ink-900 text-white rounded-lg p-5 relative overflow-hidden;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .ai-panel::after {
+    content: '';
+    @apply absolute -right-12 -top-12 w-48 h-48 rounded-full pointer-events-none;
+    background: radial-gradient(circle, rgba(47, 166, 172, 0.20), transparent 70%);
+  }
+
+  /* Compact table row */
+  .table-row-compact {
+    height: var(--density-row);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--fg-quaternary);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fg-tertiary);
+}
+
+/* Selection color */
+::selection {
+  background: var(--brand-soft);
+  color: var(--brand-soft-fg);
+}
+
+/* Focus visible */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+  border-radius: 4px;
+}
