@@ -63,7 +63,7 @@ export default function ConsoleLayout() {
           </>
         )}
         {sidebarCollapsed && item.badge && (
-          <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-critical text-white text-9 font-bold flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-critical-500 text-white text-9 font-bold flex items-center justify-center">
             {item.badge}
           </span>
         )}
@@ -152,7 +152,7 @@ export default function ConsoleLayout() {
             <div className="p-3 border-t border-ink-900/[0.06]">
               <button
                 onClick={() => navigate('/')}
-                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-8 text-13 font-medium text-ink-400 hover:text-critical hover:bg-critical-50 transition-all"
+                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-8 text-13 font-medium text-ink-400 hover:text-critical-600 hover:bg-critical-50 transition-all"
               >
                 <LogOut size={16} />
                 <span>Exit Console</span>
@@ -240,7 +240,7 @@ export default function ConsoleLayout() {
             <div className="flex items-center gap-1">
               <button className="relative p-2 rounded-8 text-ink-300 hover:text-ink-500 hover:bg-ink-900/[0.04] transition-all">
                 <Bell size={16} />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-critical" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-critical-500" />
               </button>
               <button className="hidden sm:flex p-2 rounded-8 text-ink-300 hover:text-ink-500 hover:bg-ink-900/[0.04] transition-all">
                 <HelpCircle size={16} />

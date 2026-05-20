@@ -161,28 +161,30 @@
 
   /* Status badges */
   .badge-stable {
-    @apply inline-flex items-center gap-5 h-20 px-7 rounded-pill text-11 font-medium bg-stable-50 text-stable-700;
+    @apply inline-flex items-center gap-[5px] h-[20px] px-[8px] rounded-pill text-11 font-medium bg-stable-50 text-stable-700;
   }
   .badge-advisory {
-    @apply inline-flex items-center gap-5 h-20 px-7 rounded-pill text-11 font-medium bg-advisory-50 text-advisory-700;
+    @apply inline-flex items-center gap-[5px] h-[20px] px-[8px] rounded-pill text-11 font-medium bg-advisory-50 text-advisory-700;
   }
   .badge-critical {
-    @apply inline-flex items-center gap-5 h-20 px-7 rounded-pill text-11 font-medium bg-critical-50 text-critical-700;
+    @apply inline-flex items-center gap-[5px] h-[20px] px-[8px] rounded-pill text-11 font-medium bg-critical-50 text-critical-700;
   }
   .badge-info {
-    @apply inline-flex items-center gap-5 h-20 px-7 rounded-pill text-11 font-medium bg-info-50 text-info-700;
+    @apply inline-flex items-center gap-[5px] h-[20px] px-[8px] rounded-pill text-11 font-medium bg-info-50 text-info-700;
   }
   .badge-brand {
-    @apply inline-flex items-center gap-5 h-20 px-7 rounded-pill text-11 font-medium bg-saline-50 text-saline-700;
+    @apply inline-flex items-center gap-[5px] h-[20px] px-[8px] rounded-pill text-11 font-medium bg-saline-50 text-saline-700;
   }
 
   /* Live indicator */
   .live-indicator {
-    @apply inline-flex items-center gap-6 text-11 font-medium text-critical-700 data-mono;
+    @apply inline-flex items-center gap-[6px] text-11 font-medium text-critical-700 data-mono;
   }
   .live-indicator::before {
     content: '';
-    @apply w-7 h-7 rounded-full bg-critical-500;
+    @apply rounded-full bg-critical-500;
+    width: 7px;
+    height: 7px;
     animation: pulse-live 1.6s ease-in-out infinite;
   }
 

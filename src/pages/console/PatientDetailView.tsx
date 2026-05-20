@@ -115,7 +115,7 @@ export default function PatientDetailView() {
             </div>
 
             {patient.allergies !== 'None' && (
-              <div className="mt-3 p-3 rounded-6 bg-critical-50 border border-critical/10">
+              <div className="mt-3 p-3 rounded-6 bg-critical-50 border border-critical-500/10">
                 <div className="flex items-center gap-2">
                   <AlertTriangle size={12} className="text-critical-500" />
                   <span className="text-11 font-medium text-critical-600">Allergy: {patient.allergies}</span>
@@ -283,16 +283,16 @@ export default function PatientDetailView() {
                       key={insight.id}
                       className={`p-3 rounded-6 border ${
                         insight.type === 'critical'
-                          ? 'bg-critical/10 border-critical/20'
+                          ? 'bg-critical-500/10 border-critical-500/20'
                           : insight.type === 'advisory'
-                          ? 'bg-advisory/10 border-advisory/20'
-                          : 'bg-stable/10 border-stable/20'
+                          ? 'bg-advisory-500/10 border-advisory-500/20'
+                          : 'bg-stable-500/10 border-stable-500/20'
                       }`}
                     >
                       <p className={`text-11 font-medium mb-1 ${
-                        insight.type === 'critical' ? 'text-critical-300' :
-                        insight.type === 'advisory' ? 'text-advisory-300' :
-                        'text-stable-300'
+                        insight.type === 'critical' ? 'text-critical-200' :
+                        insight.type === 'advisory' ? 'text-advisory-200' :
+                        'text-stable-200'
                       }`}>
                         {insight.title}
                       </p>

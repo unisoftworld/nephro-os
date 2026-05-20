@@ -345,21 +345,21 @@ export default function TodayView() {
                       'bg-info/20'
                     }`}>
                       {insight.type === 'critical' ? (
-                        <AlertTriangle size={10} className="text-critical-400" />
+                        <AlertTriangle size={10} className="text-critical-300" />
                       ) : insight.type === 'advisory' ? (
-                        <TrendingUp size={10} className="text-advisory-400" />
+                        <TrendingUp size={10} className="text-advisory-300" />
                       ) : insight.type === 'stable' ? (
-                        <CheckCircle2 size={10} className="text-stable-400" />
+                        <CheckCircle2 size={10} className="text-stable-300" />
                       ) : (
-                        <Activity size={10} className="text-info-400" />
+                        <Activity size={10} className="text-info-300" />
                       )}
                     </div>
                     <div className="min-w-0">
                       <p className={`text-11 font-medium mb-0.5 ${
-                        insight.type === 'critical' ? 'text-critical-300' :
-                        insight.type === 'advisory' ? 'text-advisory-300' :
-                        insight.type === 'stable' ? 'text-stable-300' :
-                        'text-info-300'
+                        insight.type === 'critical' ? 'text-critical-200' :
+                        insight.type === 'advisory' ? 'text-advisory-200' :
+                        insight.type === 'stable' ? 'text-stable-200' :
+                        'text-info-200'
                       }`}>
                         {insight.title}
                       </p>

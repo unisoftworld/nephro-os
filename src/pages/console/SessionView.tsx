@@ -90,8 +90,8 @@ export default function SessionView() {
                 <div key={vital.label} className="nephro-card">
                   <div className="flex items-center gap-2 mb-2">
                     <vital.icon size={14} className={`${
-                      vital.status === 'high' ? 'text-critical-400' :
-                      vital.status === 'low' ? 'text-info-400' :
+                      vital.status === 'high' ? 'text-critical-500' :
+                      vital.status === 'low' ? 'text-info-500' :
                       'text-ink-300'
                     }`} strokeWidth={1.5} />
                     <span className="text-11 text-ink-400">{vital.label}</span>
