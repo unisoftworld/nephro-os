@@ -217,8 +217,18 @@ export default function ConsoleLayout() {
           </div>
         </div>
 
-        {/* Collapse button */}
-        <div className="p-2 border-t border-ink-900/[0.06] shrink-0">
+        {/* Desktop actions */}
+        <div className="p-2 border-t border-ink-900/[0.06] shrink-0 space-y-1">
+          <button
+            onClick={handleLogout}
+            className={`w-full flex items-center gap-2.5 rounded-8 text-13 font-medium text-ink-400 hover:text-critical-600 hover:bg-critical-50 transition-all ${
+              sidebarCollapsed ? 'justify-center p-2' : 'px-3 py-2'
+            }`}
+            title={sidebarCollapsed ? 'Sign Out' : undefined}
+          >
+            <LogOut size={16} />
+            {!sidebarCollapsed && <span>Sign Out</span>}
+          </button>
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
             className="w-full flex items-center justify-center p-2 rounded-8 text-ink-300 hover:text-ink-500 hover:bg-ink-900/[0.04] transition-all"

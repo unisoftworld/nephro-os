@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { Eye, EyeOff, Activity, AlertCircle, ChevronRight } from 'lucide-react';
+import { Eye, EyeOff, Activity, AlertCircle, ArrowLeft, ChevronRight } from 'lucide-react';
 
 const DEMO_ACCOUNTS = [
   { email: 'dr.abdullah@nephroos.com', password: 'doctor123', role: 'Nephrologist' },
@@ -102,6 +102,14 @@ export default function LoginPage() {
       {/* Right panel — form */}
       <div className="flex-1 flex items-center justify-center p-6">
         <div className="w-full max-w-[400px]">
+          <Link
+            to="/"
+            className="mb-7 inline-flex items-center gap-2 rounded-8 border border-ink-900/[0.08] bg-white px-3 py-2 text-12 font-medium text-ink-500 no-underline transition-all hover:border-saline-300 hover:bg-saline-50 hover:text-saline-700"
+          >
+            <ArrowLeft size={13} />
+            Back to website
+          </Link>
+
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center gap-2 mb-8">
             <div className="w-7 h-7 rounded-6 bg-saline-500 flex items-center justify-center">
