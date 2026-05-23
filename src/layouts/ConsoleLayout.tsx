@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { navItems, navAdminItems } from '@/data/mockData';
 import { useAuth } from '@/contexts/AuthContext';
 import { DynamicIcon } from '@/components/Icons';
+import SearchPalette from '@/components/SearchPalette';
 import {
   Search, Bell, HelpCircle, Menu, X, ChevronRight,
   LogOut,
@@ -17,10 +18,24 @@ export default function ConsoleLayout() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const [searchOpen, setSearchOpen] = useState(false);
+
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
+
+  // '/' keyboard shortcut opens search palette
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === '/' && !(e.target instanceof HTMLInputElement) && !(e.target instanceof HTMLTextAreaElement)) {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -232,7 +247,7 @@ export default function ConsoleLayout() {
                 <Menu size={18} />
               </button>
               <button
-                onClick={() => {}}
+                onClick={() => setSearchOpen(true)}
                 className="hidden md:flex items-center gap-2 h-8 px-3 rounded-8 border border-ink-900/[0.08] text-12 text-ink-300 hover:text-ink-500 hover:border-ink-900/[0.14] transition-all bg-white"
               >
                 <Search size={13} />
@@ -276,6 +291,8 @@ export default function ConsoleLayout() {
           <Outlet />
         </main>
       </div>
+
+      <SearchPalette isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
   );
 }

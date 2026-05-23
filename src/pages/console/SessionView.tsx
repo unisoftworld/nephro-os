@@ -1,17 +1,68 @@
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { chairSessions, timelineEvents } from '@/data/mockData';
+import { chairSessions, timelineEvents as initialTimeline } from '@/data/mockData';
 import {
-  ArrowLeft, Activity, Gauge, Droplets, Wind, Thermometer,
-  Clock, User, Play, Pause, Square, AlertTriangle, CheckCircle2,
-  FileText, Printer, ChevronRight,
+  ArrowLeft, Activity, Gauge, Droplets, Wind,
+  Clock, Play, Pause, Square, AlertTriangle,
+  FileText, Printer, ChevronRight, CheckCircle2, X,
 } from 'lucide-react';
+import VitalsModal from '@/components/VitalsModal';
+
+interface TimelineEvent {
+  time: string;
+  type: string;
+  text: string;
+}
+
+type ControlAction = 'pause' | 'end' | null;
 
 export default function SessionView() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // Find session or use first one as default
   const session = chairSessions.find(s => s.id === id) || chairSessions[0];
+
+  const [timeline, setTimeline] = useState<TimelineEvent[]>(initialTimeline);
+  const [vitalsOpen, setVitalsOpen] = useState(false);
+  const [pendingAction, setPendingAction] = useState<ControlAction>(null);
+  const [noteOpen, setNoteOpen] = useState(false);
+  const [noteText, setNoteText] = useState('');
+  const [complicationOpen, setComplicationOpen] = useState(false);
+  const [complicationText, setComplicationText] = useState('');
+
+  const addTimelineEntry = (entry: TimelineEvent) => {
+    setTimeline(prev => [entry, ...prev]);
+  };
+
+  const confirmAction = (action: ControlAction) => {
+    if (!action) return;
+    const now = new Date();
+    const time = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+    if (action === 'pause') {
+      addTimelineEntry({ time, type: 'adv', text: 'Session paused by staff' });
+    } else if (action === 'end') {
+      addTimelineEntry({ time, type: 'ok', text: 'Session ended — post weight recorded' });
+    }
+    setPendingAction(null);
+  };
+
+  const handleNoteSubmit = () => {
+    if (!noteText.trim()) return;
+    const now = new Date();
+    const time = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+    addTimelineEntry({ time, type: 'ok', text: `Note: ${noteText.trim()}` });
+    setNoteText('');
+    setNoteOpen(false);
+  };
+
+  const handleComplicationSubmit = () => {
+    if (!complicationText.trim()) return;
+    const now = new Date();
+    const time = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+    addTimelineEntry({ time, type: 'adv', text: `Complication: ${complicationText.trim()}` });
+    setComplicationText('');
+    setComplicationOpen(false);
+  };
 
   return (
     <div className="p-4 lg:p-6 max-w-[1280px] mx-auto">
@@ -141,7 +192,7 @@ export default function SessionView() {
                 Session Timeline
               </h3>
               <div className="space-y-0">
-                {timelineEvents.map((event, i) => (
+                {timeline.map((event, i) => (
                   <div key={i} className="flex gap-3">
                     <div className="flex flex-col items-center">
                       <div className={`w-2 h-2 rounded-full ${
@@ -150,7 +201,7 @@ export default function SessionView() {
                         event.type === 'ok' ? 'bg-ink-300' :
                         'bg-ink-200'
                       }`} />
-                      {i < timelineEvents.length - 1 && (
+                      {i < timeline.length - 1 && (
                         <div className="w-px h-8 bg-ink-900/[0.08]" />
                       )}
                     </div>
@@ -204,11 +255,17 @@ export default function SessionView() {
                   <Play size={16} />
                   <span className="text-10 font-medium">Start</span>
                 </button>
-                <button className="flex flex-col items-center gap-1.5 py-3 rounded-8 bg-advisory-50 text-advisory-600 hover:bg-advisory-100 transition-colors">
+                <button
+                  onClick={() => setPendingAction('pause')}
+                  className="flex flex-col items-center gap-1.5 py-3 rounded-8 bg-advisory-50 text-advisory-600 hover:bg-advisory-100 transition-colors"
+                >
                   <Pause size={16} />
                   <span className="text-10 font-medium">Pause</span>
                 </button>
-                <button className="flex flex-col items-center gap-1.5 py-3 rounded-8 bg-critical-50 text-critical-600 hover:bg-critical-100 transition-colors">
+                <button
+                  onClick={() => setPendingAction('end')}
+                  className="flex flex-col items-center gap-1.5 py-3 rounded-8 bg-critical-50 text-critical-600 hover:bg-critical-100 transition-colors"
+                >
                   <Square size={16} />
                   <span className="text-10 font-medium">End</span>
                 </button>
@@ -219,15 +276,24 @@ export default function SessionView() {
             <div className="nephro-card">
               <h3 className="text-13 font-semibold text-ink-900 mb-3">Actions</h3>
               <div className="space-y-1.5">
-                <button className="w-full flex items-center gap-2.5 px-3 py-2 rounded-6 text-12 text-ink-600 hover:bg-ink-900/[0.04] transition-colors text-left">
+                <button
+                  onClick={() => setVitalsOpen(true)}
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-6 text-12 text-ink-600 hover:bg-saline-50 hover:text-saline-600 transition-colors text-left"
+                >
                   <Activity size={13} className="text-ink-300" />
                   Record Vitals
                 </button>
-                <button className="w-full flex items-center gap-2.5 px-3 py-2 rounded-6 text-12 text-ink-600 hover:bg-ink-900/[0.04] transition-colors text-left">
+                <button
+                  onClick={() => setComplicationOpen(true)}
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-6 text-12 text-ink-600 hover:bg-advisory-50 hover:text-advisory-600 transition-colors text-left"
+                >
                   <AlertTriangle size={13} className="text-ink-300" />
                   Log Complication
                 </button>
-                <button className="w-full flex items-center gap-2.5 px-3 py-2 rounded-6 text-12 text-ink-600 hover:bg-ink-900/[0.04] transition-colors text-left">
+                <button
+                  onClick={() => setNoteOpen(true)}
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-6 text-12 text-ink-600 hover:bg-ink-900/[0.04] transition-colors text-left"
+                >
                   <FileText size={13} className="text-ink-300" />
                   Add Note
                 </button>
@@ -265,6 +331,122 @@ export default function SessionView() {
           <Activity size={32} className="text-ink-200 mx-auto mb-3" />
           <h3 className="text-16 font-semibold text-ink-900 mb-1">No active session</h3>
           <p className="text-13 text-ink-400">This chair is currently empty or the session hasn't started yet.</p>
+        </div>
+      )}
+
+      {/* Vitals Modal */}
+      <VitalsModal
+        isOpen={vitalsOpen}
+        onClose={() => setVitalsOpen(false)}
+        chairNumber={session.chairNumber}
+        patientName={session.patient?.name ?? ''}
+        onSubmit={addTimelineEntry}
+      />
+
+      {/* Pause / End Confirmation */}
+      {pendingAction && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-ink-900/40 backdrop-blur-sm" onClick={() => setPendingAction(null)} />
+          <div className="relative bg-white rounded-lg shadow-overlay w-full max-w-sm mx-4 p-5">
+            <div className="flex items-start gap-3 mb-4">
+              <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
+                pendingAction === 'end' ? 'bg-critical-50' : 'bg-advisory-50'
+              }`}>
+                {pendingAction === 'end'
+                  ? <Square size={16} className="text-critical-500" />
+                  : <Pause size={16} className="text-advisory-500" />
+                }
+              </div>
+              <div>
+                <h3 className="text-14 font-semibold text-ink-900">
+                  {pendingAction === 'end' ? 'End session?' : 'Pause session?'}
+                </h3>
+                <p className="text-12 text-ink-400 mt-1 leading-relaxed">
+                  {pendingAction === 'end'
+                    ? `This will end Chair ${session.chairNumber}'s session and mark it as complete.`
+                    : 'Session will be paused. Machine alarms will remain active.'
+                  }
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-2 justify-end">
+              <button
+                onClick={() => setPendingAction(null)}
+                className="h-9 px-4 rounded-8 text-13 font-medium text-ink-500 hover:bg-ink-900/[0.04] transition-all"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => confirmAction(pendingAction)}
+                className={`h-9 px-4 rounded-8 text-13 font-semibold text-white transition-all shadow-raised flex items-center gap-2 ${
+                  pendingAction === 'end' ? 'bg-critical-500 hover:bg-critical-600' : 'bg-advisory-500 hover:bg-advisory-600'
+                }`}
+              >
+                <CheckCircle2 size={13} />
+                {pendingAction === 'end' ? 'End Session' : 'Pause Session'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Note Modal */}
+      {noteOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-ink-900/40 backdrop-blur-sm" onClick={() => setNoteOpen(false)} />
+          <div className="relative bg-white rounded-lg shadow-overlay w-full max-w-sm mx-4 p-5">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-14 font-semibold text-ink-900">Add Clinical Note</h3>
+              <button onClick={() => setNoteOpen(false)} className="p-1 rounded-6 text-ink-300 hover:text-ink-600 transition-colors">
+                <X size={15} />
+              </button>
+            </div>
+            <textarea
+              rows={3}
+              autoFocus
+              placeholder="Enter clinical note..."
+              value={noteText}
+              onChange={e => setNoteText(e.target.value)}
+              className="w-full px-3 py-2 rounded-8 border border-ink-900/[0.10] bg-white text-13 text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-saline-400 focus:ring-1 focus:ring-saline-400/20 transition-all resize-none mb-4"
+            />
+            <div className="flex justify-end gap-2">
+              <button onClick={() => setNoteOpen(false)} className="h-9 px-4 rounded-8 text-13 font-medium text-ink-500 hover:bg-ink-900/[0.04] transition-all">Cancel</button>
+              <button onClick={handleNoteSubmit} className="h-9 px-4 rounded-8 bg-saline-500 text-white text-13 font-semibold hover:bg-saline-600 transition-all shadow-raised">Save Note</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Log Complication Modal */}
+      {complicationOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-ink-900/40 backdrop-blur-sm" onClick={() => setComplicationOpen(false)} />
+          <div className="relative bg-white rounded-lg shadow-overlay w-full max-w-sm mx-4 p-5">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <AlertTriangle size={16} className="text-advisory-500" />
+                <h3 className="text-14 font-semibold text-ink-900">Log Complication</h3>
+              </div>
+              <button onClick={() => setComplicationOpen(false)} className="p-1 rounded-6 text-ink-300 hover:text-ink-600 transition-colors">
+                <X size={15} />
+              </button>
+            </div>
+            <textarea
+              rows={3}
+              autoFocus
+              placeholder="Describe the complication (e.g. Intradialytic hypotension, BP dropped to 85/50, patient symptomatic)..."
+              value={complicationText}
+              onChange={e => setComplicationText(e.target.value)}
+              className="w-full px-3 py-2 rounded-8 border border-advisory-400/30 bg-advisory-50/30 text-13 text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-advisory-400 focus:ring-1 focus:ring-advisory-400/20 transition-all resize-none mb-4"
+            />
+            <div className="flex justify-end gap-2">
+              <button onClick={() => setComplicationOpen(false)} className="h-9 px-4 rounded-8 text-13 font-medium text-ink-500 hover:bg-ink-900/[0.04] transition-all">Cancel</button>
+              <button onClick={handleComplicationSubmit} className="h-9 px-4 rounded-8 bg-advisory-500 text-white text-13 font-semibold hover:bg-advisory-600 transition-all shadow-raised flex items-center gap-2">
+                <AlertTriangle size={13} />
+                Log Complication
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

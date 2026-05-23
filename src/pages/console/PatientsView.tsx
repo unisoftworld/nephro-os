@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { patients, type Patient } from '@/data/mockData';
+import AddPatientModal from '@/components/AddPatientModal';
 import {
   Search, Filter, Plus, ChevronRight, Users, Activity,
   Droplets, Phone, AlertTriangle, CheckCircle2, Clock,
@@ -28,6 +29,8 @@ export default function PatientsView() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [addOpen, setAddOpen] = useState(false);
+  const [addedName, setAddedName] = useState<string | null>(null);
 
   const filteredPatients = patients.filter(p => {
     const matchesSearch = !searchQuery ||
@@ -58,7 +61,10 @@ export default function PatientsView() {
             <Filter size={14} />
             Filter
           </button>
-          <button className="inline-flex items-center gap-2 px-4 py-2 rounded-8 bg-saline-500 text-white text-13 font-medium hover:bg-saline-600 transition-colors shadow-raised">
+          <button
+            onClick={() => setAddOpen(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-8 bg-saline-500 text-white text-13 font-medium hover:bg-saline-600 transition-colors shadow-raised"
+          >
             <Plus size={14} />
             Add Patient
           </button>
@@ -206,6 +212,24 @@ export default function PatientsView() {
           </div>
         )}
       </div>
+
+      {/* Success toast */}
+      {addedName && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-8 bg-stable-500 text-white shadow-overlay animate-in slide-in-from-bottom-4 duration-200">
+          <CheckCircle2 size={16} />
+          <span className="text-13 font-medium">{addedName} added successfully</span>
+        </div>
+      )}
+
+      <AddPatientModal
+        isOpen={addOpen}
+        onClose={() => setAddOpen(false)}
+        onAdded={(name) => {
+          setAddOpen(false);
+          setAddedName(name);
+          setTimeout(() => setAddedName(null), 3000);
+        }}
+      />
     </div>
   );
 }
