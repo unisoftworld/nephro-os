@@ -5,6 +5,7 @@ import { navItems, navAdminItems } from '@/data/mockData';
 import { useAuth } from '@/contexts/AuthContext';
 import { DynamicIcon } from '@/components/Icons';
 import SearchPalette from '@/components/SearchPalette';
+import NotificationsPanel from '@/components/NotificationsPanel';
 import {
   Search, Bell, HelpCircle, Menu, X, ChevronRight,
   LogOut,
@@ -19,6 +20,7 @@ export default function ConsoleLayout() {
   const [scrolled, setScrolled] = useState(false);
 
   const [searchOpen, setSearchOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -260,7 +262,10 @@ export default function ConsoleLayout() {
 
             {/* Right */}
             <div className="flex items-center gap-1">
-              <button className="relative p-2 rounded-8 text-ink-300 hover:text-ink-500 hover:bg-ink-900/[0.04] transition-all">
+              <button
+                onClick={() => setNotificationsOpen(v => !v)}
+                className="relative p-2 rounded-8 text-ink-300 hover:text-ink-500 hover:bg-ink-900/[0.04] transition-all"
+              >
                 <Bell size={16} />
                 <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-critical-500" />
               </button>
@@ -293,6 +298,7 @@ export default function ConsoleLayout() {
       </div>
 
       <SearchPalette isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+      <NotificationsPanel isOpen={notificationsOpen} onClose={() => setNotificationsOpen(false)} />
     </div>
   );
 }

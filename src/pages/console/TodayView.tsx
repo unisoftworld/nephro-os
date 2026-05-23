@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { chairSessions, todayStats, insights } from '@/data/mockData';
+import StartSessionModal from '@/components/StartSessionModal';
 import {
   Activity, Clock, Users, CheckCircle2, AlertTriangle, AlertCircle,
   Brain, ChevronRight, TrendingUp, Calendar, ArrowRight, Eye,
@@ -56,7 +58,7 @@ function StatusBadge({ status }: { status: string }) {
   }
 }
 
-function ChairCard({ session }: { session: typeof chairSessions[0] }) {
+function ChairCard({ session, onStartSession }: { session: typeof chairSessions[0]; onStartSession: (chairId: string) => void }) {
   const navigate = useNavigate();
 
   if (session.status === 'empty') {
@@ -182,7 +184,7 @@ function ChairCard({ session }: { session: typeof chairSessions[0] }) {
             </div>
           </div>
           <button
-            onClick={() => navigate(`/console/sessions/${session.id}`)}
+            onClick={() => onStartSession(session.id)}
             className="mt-3 w-full inline-flex items-center justify-center gap-1.5 h-7 rounded-6 bg-saline-500 text-white text-11 font-medium hover:bg-saline-600 transition-colors"
           >
             <Play size={11} />
@@ -207,6 +209,13 @@ function ChairCard({ session }: { session: typeof chairSessions[0] }) {
 
 export default function TodayView() {
   const navigate = useNavigate();
+  const [startSessionOpen, setStartSessionOpen] = useState(false);
+  const [startSessionChairId, setStartSessionChairId] = useState<string | undefined>();
+
+  const handleStartSession = (chairId?: string) => {
+    setStartSessionChairId(chairId);
+    setStartSessionOpen(true);
+  };
 
   const activeSessions = chairSessions.filter(s => s.status === 'active' || s.status === 'critical' || s.status === 'advisory');
   const scheduledSessions = chairSessions.filter(s => s.status === 'scheduled');
@@ -232,7 +241,10 @@ export default function TodayView() {
             <Calendar size={14} />
             Schedule
           </button>
-          <button className="inline-flex items-center gap-2 px-4 py-2 rounded-8 bg-saline-500 text-white text-13 font-medium hover:bg-saline-600 transition-colors shadow-raised">
+          <button
+            onClick={() => handleStartSession()}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-8 bg-saline-500 text-white text-13 font-medium hover:bg-saline-600 transition-colors shadow-raised"
+          >
             <Activity size={14} />
             New Session
           </button>
@@ -286,7 +298,7 @@ export default function TodayView() {
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {activeSessions.map((session) => (
-            <ChairCard key={session.id} session={session} />
+            <ChairCard key={session.id} session={session} onStartSession={handleStartSession} />
           ))}
         </div>
       </div>
@@ -303,7 +315,7 @@ export default function TodayView() {
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             {scheduledSessions.map((session) => (
-              <ChairCard key={session.id} session={session} />
+              <ChairCard key={session.id} session={session} onStartSession={handleStartSession} />
             ))}
           </div>
         </div>
@@ -380,6 +392,12 @@ export default function TodayView() {
           </div>
         </div>
       </div>
+
+      <StartSessionModal
+        isOpen={startSessionOpen}
+        onClose={() => setStartSessionOpen(false)}
+        preselectedChairId={startSessionChairId}
+      />
     </div>
   );
 }
