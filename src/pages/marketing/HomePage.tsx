@@ -70,7 +70,7 @@ const stats = [
   { value: '24/7', label: 'Real-time monitoring' },
   { value: '99.9%', label: 'Uptime SLA' },
   { value: '< 2s', label: 'NPHIES response' },
-  { value: 'Arabic', label: 'First, not translated' },
+  { value: 'English', label: 'Multi Language' },
 ];
 
 const trustBadges = [
@@ -140,7 +140,7 @@ export default function HomePage() {
               >
                 NephroOS is the renal-native SaaS platform for dialysis centers,
                 vascular surgery clinics, and multi-branch healthcare groups in
-                Saudi Arabia and the GCC. Arabic-first. AI-powered. NPHIES-ready.
+                Saudi Arabia and the GCC. Arabic. AI-powered. NPHIES-ready.
               </motion.p>
 
               <motion.div
