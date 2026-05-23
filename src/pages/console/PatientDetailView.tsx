@@ -1,11 +1,14 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { patients, insights } from '@/data/mockData';
 import {
   ArrowLeft, Activity, Droplets, Calendar, Phone, Mail,
   FileText, TrendingUp, AlertTriangle, CheckCircle2, Brain,
   Weight, HeartPulse, FlaskConical, CreditCard, ChevronRight,
+  X, Send, User,
 } from 'lucide-react';
+import StartSessionModal from '@/components/StartSessionModal';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
@@ -21,6 +24,30 @@ export default function PatientDetailView() {
 
   const patient = patients.find(p => p.id === id) || patients[0];
   const patientInsights = insights.filter(i => i.patientCode === patient.code);
+
+  const labsRef = useRef<HTMLDivElement>(null);
+  const [startSessionOpen, setStartSessionOpen] = useState(false);
+  const [notesOpen, setNotesOpen] = useState(false);
+  const [vascularOpen, setVascularOpen] = useState(false);
+  const [newNote, setNewNote] = useState('');
+  const [notes, setNotes] = useState([
+    { id: '1', date: '2026-05-17', author: 'Dr. Abdullah', text: 'Patient tolerated session well. BP stable throughout. Recommend increasing UF target slightly on next session.' },
+    { id: '2', date: '2026-05-13', author: 'Nurse Ahmed', text: 'Patient reported mild cramps at 3h mark. Reduced UF rate. Access site looks clean.' },
+  ]);
+
+  const handleAddNote = () => {
+    if (!newNote.trim()) return;
+    setNotes(prev => [{ id: Date.now().toString(), date: new Date().toISOString().slice(0, 10), author: 'Dr. Abdullah', text: newNote.trim() }, ...prev]);
+    setNewNote('');
+  };
+
+  const handleQuickAction = (label: string) => {
+    if (label === 'Start New Session') setStartSessionOpen(true);
+    else if (label === 'View Lab Results') labsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    else if (label === 'Vascular Access Record') setVascularOpen(true);
+    else if (label === 'Clinical Notes') setNotesOpen(true);
+    else if (label === 'Billing History') navigate('/console/billing');
+  };
 
   // Mock lab data for charts
   const labTrends = [
@@ -50,11 +77,17 @@ export default function PatientDetailView() {
           <p className="text-12 text-ink-400 data-mono">{patient.code} — {patient.branch}</p>
         </div>
         <div className="hidden sm:flex items-center gap-2">
-          <button className="inline-flex items-center gap-2 px-4 py-2 rounded-8 border border-ink-900/[0.08] text-13 font-medium text-ink-600 hover:bg-white bg-white transition-all">
+          <button
+            onClick={() => setNotesOpen(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-8 border border-ink-900/[0.08] text-13 font-medium text-ink-600 hover:bg-white bg-white transition-all"
+          >
             <FileText size={14} />
             Notes
           </button>
-          <button className="inline-flex items-center gap-2 px-4 py-2 rounded-8 bg-saline-500 text-white text-13 font-medium hover:bg-saline-600 transition-colors shadow-raised">
+          <button
+            onClick={() => setStartSessionOpen(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-8 bg-saline-500 text-white text-13 font-medium hover:bg-saline-600 transition-colors shadow-raised"
+          >
             <Activity size={14} />
             New Session
           </button>
@@ -143,6 +176,7 @@ export default function PatientDetailView() {
               ].map((action) => (
                 <button
                   key={action.label}
+                  onClick={() => handleQuickAction(action.label)}
                   className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-8 text-12 font-medium transition-all text-left ${
                     action.accent
                       ? 'bg-saline-50 text-saline-600 hover:bg-saline-100'
@@ -162,6 +196,7 @@ export default function PatientDetailView() {
         <div className="lg:col-span-2 space-y-5">
           {/* Lab Trends */}
           <motion.div
+            ref={labsRef}
             custom={2}
             variants={fadeUp as any}
             initial="hidden"
@@ -321,6 +356,114 @@ export default function PatientDetailView() {
           )}
         </div>
       </div>
+
+      {/* Start Session Modal */}
+      <StartSessionModal
+        isOpen={startSessionOpen}
+        onClose={() => setStartSessionOpen(false)}
+        preselectedPatientId={patient.id}
+      />
+
+      {/* Clinical Notes Modal */}
+      {notesOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-ink-900/40 backdrop-blur-sm" onClick={() => setNotesOpen(false)} />
+          <div className="relative bg-white rounded-lg shadow-overlay w-full max-w-lg mx-4 max-h-[85vh] flex flex-col overflow-hidden">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-ink-900/[0.06] shrink-0">
+              <div>
+                <h2 className="text-15 font-semibold text-ink-900">Clinical Notes</h2>
+                <p className="text-11 text-ink-400 mt-0.5">{patient.name}</p>
+              </div>
+              <button onClick={() => setNotesOpen(false)} className="p-1.5 rounded-6 text-ink-300 hover:text-ink-600 hover:bg-ink-900/[0.04] transition-all">
+                <X size={16} />
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-5 space-y-3">
+              {notes.map((note) => (
+                <div key={note.id} className="p-4 rounded-8 bg-ink-900/[0.02] border border-ink-900/[0.05]">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-5 h-5 rounded-full bg-saline-100 flex items-center justify-center">
+                      <User size={10} className="text-saline-600" />
+                    </div>
+                    <span className="text-12 font-medium text-ink-700">{note.author}</span>
+                    <span className="text-10 text-ink-400 data-mono ml-auto">{note.date}</span>
+                  </div>
+                  <p className="text-12 text-ink-600 leading-relaxed">{note.text}</p>
+                </div>
+              ))}
+              {notes.length === 0 && (
+                <div className="text-center py-8">
+                  <FileText size={20} className="text-ink-200 mx-auto mb-2" />
+                  <p className="text-12 text-ink-400">No notes yet</p>
+                </div>
+              )}
+            </div>
+            <div className="px-5 pb-5 pt-3 border-t border-ink-900/[0.06] shrink-0">
+              <div className="flex gap-2">
+                <textarea
+                  value={newNote}
+                  onChange={e => setNewNote(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) handleAddNote(); }}
+                  placeholder="Add a clinical note… (Ctrl+Enter to save)"
+                  rows={2}
+                  className="flex-1 px-3 py-2 rounded-8 border border-ink-900/[0.10] bg-white text-12 text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-saline-400 focus:ring-1 focus:ring-saline-400/20 resize-none transition-all"
+                />
+                <button
+                  onClick={handleAddNote}
+                  disabled={!newNote.trim()}
+                  className="px-3 rounded-8 bg-saline-500 text-white hover:bg-saline-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-raised"
+                >
+                  <Send size={14} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Vascular Access Modal */}
+      {vascularOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-ink-900/40 backdrop-blur-sm" onClick={() => setVascularOpen(false)} />
+          <div className="relative bg-white rounded-lg shadow-overlay w-full max-w-md mx-4 overflow-hidden">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-ink-900/[0.06]">
+              <div>
+                <h2 className="text-15 font-semibold text-ink-900">Vascular Access Record</h2>
+                <p className="text-11 text-ink-400 mt-0.5">{patient.name}</p>
+              </div>
+              <button onClick={() => setVascularOpen(false)} className="p-1.5 rounded-6 text-ink-300 hover:text-ink-600 hover:bg-ink-900/[0.04] transition-all">
+                <X size={16} />
+              </button>
+            </div>
+            <div className="p-5 space-y-4">
+              <div className="p-4 rounded-8 bg-saline-50 border border-saline-400/20">
+                <p className="text-11 uppercase tracking-[0.06em] text-saline-500 font-medium mb-2">Current Access</p>
+                <p className="text-14 font-semibold text-ink-900">{patient.accessType}</p>
+                <p className="text-12 text-ink-400 mt-0.5">Established: {patient.accessDate}</p>
+              </div>
+              {[
+                { label: 'Last Inspection', value: '2026-05-17', note: 'No signs of infection. Good flow.' },
+                { label: 'Flow Rate (Qa)', value: '920 mL/min', note: 'Within normal range' },
+                { label: 'Static VP Ratio', value: '0.38', note: 'Acceptable' },
+                { label: 'Next Surveillance', value: '2026-06-15', note: 'Scheduled' },
+              ].map((row) => (
+                <div key={row.label} className="flex items-center justify-between py-2.5 border-b border-ink-900/[0.04] last:border-0">
+                  <div>
+                    <p className="text-12 font-medium text-ink-700">{row.label}</p>
+                    <p className="text-10 text-ink-400">{row.note}</p>
+                  </div>
+                  <span className="data-mono text-12 font-medium text-ink-900">{row.value}</span>
+                </div>
+              ))}
+            </div>
+            <div className="px-5 pb-5">
+              <button onClick={() => setVascularOpen(false)} className="w-full h-9 rounded-8 border border-ink-900/[0.08] text-13 font-medium text-ink-600 hover:bg-ink-900/[0.04] transition-all">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

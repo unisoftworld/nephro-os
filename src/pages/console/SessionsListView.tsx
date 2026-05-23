@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { chairSessions } from '@/data/mockData';
@@ -5,6 +6,7 @@ import {
   Activity, Search, Filter, Plus, ChevronRight, Clock,
   CheckCircle2, AlertTriangle, AlertCircle, Calendar, Gauge,
 } from 'lucide-react';
+import StartSessionModal from '@/components/StartSessionModal';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
@@ -28,8 +30,18 @@ function StatusBadge({ status }: { status: string }) {
 
 export default function SessionsListView() {
   const navigate = useNavigate();
+  const [startSessionOpen, setStartSessionOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const sessions = chairSessions.filter(s => s.status !== 'empty');
+  const allSessions = chairSessions.filter(s => s.status !== 'empty');
+  const sessions = searchQuery
+    ? allSessions.filter(s =>
+        s.patient?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        s.patient?.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        `chair ${s.chairNumber}`.includes(searchQuery.toLowerCase()) ||
+        s.status.includes(searchQuery.toLowerCase())
+      )
+    : allSessions;
 
   return (
     <div className="p-4 lg:p-6 max-w-[1280px] mx-auto">
@@ -43,7 +55,10 @@ export default function SessionsListView() {
           <button className="inline-flex items-center gap-2 px-4 py-2 rounded-8 border border-ink-900/[0.08] text-13 font-medium text-ink-600 hover:bg-white bg-white transition-all">
             <Filter size={14} /> Filter
           </button>
-          <button className="inline-flex items-center gap-2 px-4 py-2 rounded-8 bg-saline-500 text-white text-13 font-medium hover:bg-saline-600 transition-colors shadow-raised">
+          <button
+            onClick={() => setStartSessionOpen(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-8 bg-saline-500 text-white text-13 font-medium hover:bg-saline-600 transition-colors shadow-raised"
+          >
             <Plus size={14} /> New Session
           </button>
         </div>
@@ -55,6 +70,8 @@ export default function SessionsListView() {
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-300" />
           <input
             type="text"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search sessions by patient, chair, or status..."
             className="w-full h-9 pl-9 pr-4 rounded-8 border border-ink-900/[0.08] bg-white text-13 text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-saline-400 focus:ring-1 focus:ring-saline-400/20 transition-all"
           />
@@ -148,6 +165,11 @@ export default function SessionsListView() {
           </table>
         </div>
       </div>
+
+      <StartSessionModal
+        isOpen={startSessionOpen}
+        onClose={() => setStartSessionOpen(false)}
+      />
     </div>
   );
 }

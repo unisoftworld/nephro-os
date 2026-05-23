@@ -6,6 +6,7 @@ import {
   TrendingDown, AlertTriangle, CheckCircle2, Activity,
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import NewLabOrderModal from '@/components/NewLabOrderModal';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
@@ -34,6 +35,8 @@ const trendData = [
 
 export default function LabsView() {
   const [filter, setFilter] = useState('all');
+  const [orderOpen, setOrderOpen] = useState(false);
+  const [orderedFor, setOrderedFor] = useState<string | null>(null);
 
   return (
     <div className="p-4 lg:p-6 max-w-[1280px] mx-auto">
@@ -46,7 +49,10 @@ export default function LabsView() {
           <button className="inline-flex items-center gap-2 px-4 py-2 rounded-8 border border-ink-900/[0.08] text-13 font-medium text-ink-600 hover:bg-white bg-white transition-all">
             <Filter size={14} /> Filter
           </button>
-          <button className="inline-flex items-center gap-2 px-4 py-2 rounded-8 bg-saline-500 text-white text-13 font-medium hover:bg-saline-600 transition-colors shadow-raised">
+          <button
+            onClick={() => setOrderOpen(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-8 bg-saline-500 text-white text-13 font-medium hover:bg-saline-600 transition-colors shadow-raised"
+          >
             <Plus size={14} /> New Order
           </button>
         </div>
@@ -130,6 +136,22 @@ export default function LabsView() {
           </table>
         </div>
       </motion.div>
+
+      {orderedFor && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-8 bg-stable-500 text-white shadow-overlay">
+          <CheckCircle2 size={16} />
+          <span className="text-13 font-medium">Lab order placed for {orderedFor}</span>
+        </div>
+      )}
+
+      <NewLabOrderModal
+        isOpen={orderOpen}
+        onClose={() => setOrderOpen(false)}
+        onCreated={(name) => {
+          setOrderedFor(name);
+          setTimeout(() => setOrderedFor(null), 3000);
+        }}
+      />
     </div>
   );
 }
