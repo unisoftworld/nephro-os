@@ -94,7 +94,15 @@ export default function HomePage() {
             alt=""
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-ink-950/96 via-ink-900/84 to-ink-900/54" />
+          <div className="absolute inset-0 bg-ink-950/20" />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(90deg, rgba(4, 12, 22, 0.94) 0%, rgba(4, 12, 22, 0.86) 28%, rgba(4, 12, 22, 0.58) 52%, rgba(4, 12, 22, 0.20) 74%, rgba(4, 12, 22, 0.08) 100%)',
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-ink-950/10 via-transparent to-ink-950/28" />
         </div>
 
         <div className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-8">
@@ -116,11 +124,11 @@ export default function HomePage() {
                 variants={fadeUp as any}
                 initial="hidden"
                 animate="visible"
-                className="text-38 lg:text-48 font-semibold text-white tracking-[-0.025em] leading-[1.05] mb-6"
+                className="text-38 lg:text-48 font-semibold text-white tracking-[-0.025em] leading-[1.05] mb-6 drop-shadow-[0_2px_12px_rgba(0,0,0,0.38)]"
               >
                 Run every chair.<br />
                 Trust every signal.<br />
-                <span className="text-saline-300">Know every patient.</span>
+                <span className="text-saline-200">Know every patient.</span>
               </motion.h1>
 
               <motion.p
@@ -128,7 +136,7 @@ export default function HomePage() {
                 variants={fadeUp as any}
                 initial="hidden"
                 animate="visible"
-                className="text-15 text-white/80 leading-relaxed mb-8 max-w-md"
+                className="text-16 text-white/95 leading-[1.7] mb-8 max-w-[520px] drop-shadow-[0_2px_10px_rgba(0,0,0,0.42)]"
               >
                 NephroOS is the renal-native SaaS platform for dialysis centers,
                 vascular surgery clinics, and multi-branch healthcare groups in
