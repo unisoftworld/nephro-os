@@ -297,7 +297,10 @@ export default function SessionView() {
                   <FileText size={13} className="text-ink-300" />
                   Add Note
                 </button>
-                <button className="w-full flex items-center gap-2.5 px-3 py-2 rounded-6 text-12 text-ink-600 hover:bg-ink-900/[0.04] transition-colors text-left">
+                <button
+                  onClick={() => window.print()}
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-6 text-12 text-ink-600 hover:bg-ink-900/[0.04] transition-colors text-left"
+                >
                   <Printer size={13} className="text-ink-300" />
                   Print Summary
                 </button>

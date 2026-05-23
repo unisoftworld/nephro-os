@@ -4,6 +4,7 @@ import {
   Package, Plus, Search, Filter, AlertTriangle, CheckCircle2,
   ChevronRight, TrendingDown, Clock, Droplets, Syringe, Pill,
 } from 'lucide-react';
+import AddInventoryModal from '@/components/AddInventoryModal';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
@@ -26,6 +27,8 @@ const inventoryItems = [
 
 export default function InventoryView() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [addOpen, setAddOpen] = useState(false);
+  const [addedName, setAddedName] = useState<string | null>(null);
 
   const filtered = inventoryItems.filter(i =>
     !searchQuery || i.name.toLowerCase().includes(searchQuery.toLowerCase()) || i.sku.toLowerCase().includes(searchQuery.toLowerCase())
@@ -47,7 +50,10 @@ export default function InventoryView() {
           <button className="inline-flex items-center gap-2 px-4 py-2 rounded-8 border border-ink-900/[0.08] text-13 font-medium text-ink-600 hover:bg-white bg-white transition-all">
             <Filter size={14} /> Filter
           </button>
-          <button className="inline-flex items-center gap-2 px-4 py-2 rounded-8 bg-saline-500 text-white text-13 font-medium hover:bg-saline-600 transition-colors shadow-raised">
+          <button
+            onClick={() => setAddOpen(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-8 bg-saline-500 text-white text-13 font-medium hover:bg-saline-600 transition-colors shadow-raised"
+          >
             <Plus size={14} /> Add Item
           </button>
         </div>
@@ -121,6 +127,22 @@ export default function InventoryView() {
           </table>
         </div>
       </motion.div>
+
+      {addedName && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-8 bg-stable-500 text-white shadow-overlay">
+          <CheckCircle2 size={16} />
+          <span className="text-13 font-medium">{addedName} added to inventory</span>
+        </div>
+      )}
+
+      <AddInventoryModal
+        isOpen={addOpen}
+        onClose={() => setAddOpen(false)}
+        onAdded={(name) => {
+          setAddedName(name);
+          setTimeout(() => setAddedName(null), 3000);
+        }}
+      />
     </div>
   );
 }

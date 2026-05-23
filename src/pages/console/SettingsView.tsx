@@ -54,7 +54,7 @@ const settingSections = [
     title: 'Regional',
     icon: Globe,
     items: [
-      { label: 'Language & RTL', desc: 'Arabic / English', active: true },
+      { label: 'Language', desc: 'English', active: true },
       { label: 'Date & Time', desc: 'Saudi Arabia (UTC+3)', active: false },
       { label: 'Currency & VAT', desc: 'SAR, 15% VAT', active: false },
     ],

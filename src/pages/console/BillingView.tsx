@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Plus, Filter, TrendingUp,
   CheckCircle2, Clock, AlertTriangle, FileText,
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import NewInvoiceModal from '@/components/NewInvoiceModal';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
@@ -32,6 +34,9 @@ const invoices = [
 const formatSAR = (v: number) => `SAR ${v.toLocaleString('en', { minimumFractionDigits: 2 })}`;
 
 export default function BillingView() {
+  const [invoiceOpen, setInvoiceOpen] = useState(false);
+  const [createdId, setCreatedId] = useState<string | null>(null);
+
   return (
     <div className="p-4 lg:p-6 max-w-[1280px] mx-auto">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
@@ -43,7 +48,10 @@ export default function BillingView() {
           <button className="inline-flex items-center gap-2 px-4 py-2 rounded-8 border border-ink-900/[0.08] text-13 font-medium text-ink-600 hover:bg-white bg-white transition-all">
             <Filter size={14} /> Filter
           </button>
-          <button className="inline-flex items-center gap-2 px-4 py-2 rounded-8 bg-saline-500 text-white text-13 font-medium hover:bg-saline-600 transition-colors shadow-raised">
+          <button
+            onClick={() => setInvoiceOpen(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-8 bg-saline-500 text-white text-13 font-medium hover:bg-saline-600 transition-colors shadow-raised"
+          >
             <Plus size={14} /> New Invoice
           </button>
         </div>
@@ -132,6 +140,22 @@ export default function BillingView() {
           </table>
         </div>
       </motion.div>
+
+      {createdId && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-8 bg-stable-500 text-white shadow-overlay">
+          <CheckCircle2 size={16} />
+          <span className="text-13 font-medium">{createdId} created</span>
+        </div>
+      )}
+
+      <NewInvoiceModal
+        isOpen={invoiceOpen}
+        onClose={() => setInvoiceOpen(false)}
+        onCreated={(id) => {
+          setCreatedId(id);
+          setTimeout(() => setCreatedId(null), 3000);
+        }}
+      />
     </div>
   );
 }
