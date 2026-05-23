@@ -2,6 +2,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { navItems, navAdminItems } from '@/data/mockData';
+import { useAuth } from '@/contexts/AuthContext';
 import { DynamicIcon } from '@/components/Icons';
 import {
   Search, Bell, HelpCircle, Menu, X, ChevronRight,
@@ -11,9 +12,15 @@ import {
 export default function ConsoleLayout() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -151,11 +158,11 @@ export default function ConsoleLayout() {
             </div>
             <div className="p-3 border-t border-ink-900/[0.06]">
               <button
-                onClick={() => navigate('/')}
+                onClick={handleLogout}
                 className="w-full flex items-center gap-2.5 px-3 py-2 rounded-8 text-13 font-medium text-ink-400 hover:text-critical-600 hover:bg-critical-50 transition-all"
               >
                 <LogOut size={16} />
-                <span>Exit Console</span>
+                <span>Sign Out</span>
               </button>
             </div>
           </motion.aside>
@@ -248,14 +255,14 @@ export default function ConsoleLayout() {
               <div className="w-px h-5 bg-ink-900/[0.06] mx-1" />
               <button className="flex items-center gap-2 pl-2 pr-1 py-1 rounded-8 hover:bg-ink-900/[0.04] transition-all">
                 <div className="w-7 h-7 rounded-full bg-saline-100 flex items-center justify-center text-11 font-semibold text-saline-600">
-                  NA
+                  {user?.initials ?? '??'}
                 </div>
                 <div className="hidden md:block text-left">
                   <p className="text-12 font-medium text-ink-800 leading-tight">
-                    Nurse Ahmed
+                    {user?.name ?? 'Unknown'}
                   </p>
                   <p className="text-10 text-ink-400 leading-tight">
-                    Riyadh Central
+                    {user?.branch ?? '—'}
                   </p>
                 </div>
                 <ChevronRight size={12} className="text-ink-300 -rotate-90 hidden md:block" />

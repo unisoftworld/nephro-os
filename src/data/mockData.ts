@@ -665,3 +665,137 @@ export const navAdminItems = [
   { label: 'Staff', icon: 'UsersRound', path: '/console/staff' },
   { label: 'Settings', icon: 'Settings', path: '/console/settings' },
 ];
+
+export type StaffRole = 'nephrologist' | 'nurse' | 'charge-nurse' | 'tech' | 'manager' | 'billing';
+export type StaffStatus = 'on-duty' | 'off-duty' | 'on-leave';
+
+export interface StaffMember {
+  id: string;
+  name: string;
+  initials: string;
+  email: string;
+  phone: string;
+  role: StaffRole;
+  status: StaffStatus;
+  shift: string;
+  department: string;
+  joinDate: string;
+  licenseNo?: string;
+  sessionsToday?: number;
+}
+
+export const staffMembers: StaffMember[] = [
+  {
+    id: 'st-001',
+    name: 'Dr. Abdullah Al-Rashidi',
+    initials: 'AR',
+    email: 'dr.abdullah@nephroos.com',
+    phone: '+966 55 100 1001',
+    role: 'nephrologist',
+    status: 'on-duty',
+    shift: '07:00 – 15:00',
+    department: 'Nephrology',
+    joinDate: '2022-01-15',
+    licenseNo: 'SCF-NP-4421',
+  },
+  {
+    id: 'st-002',
+    name: 'Dr. Lina Al-Zubair',
+    initials: 'LZ',
+    email: 'dr.lina@nephroos.com',
+    phone: '+966 55 100 1002',
+    role: 'nephrologist',
+    status: 'off-duty',
+    shift: '15:00 – 23:00',
+    department: 'Nephrology',
+    joinDate: '2023-03-01',
+    licenseNo: 'SCF-NP-5510',
+  },
+  {
+    id: 'st-003',
+    name: 'Nurse Ahmed Karim',
+    initials: 'AK',
+    email: 'nurse.ahmed@nephroos.com',
+    phone: '+966 55 200 2001',
+    role: 'charge-nurse',
+    status: 'on-duty',
+    shift: '07:00 – 15:00',
+    department: 'Dialysis Unit',
+    joinDate: '2021-06-10',
+    sessionsToday: 8,
+  },
+  {
+    id: 'st-004',
+    name: 'Reem Al-Dosari',
+    initials: 'RD',
+    email: 'reem@nephroos.com',
+    phone: '+966 55 200 2002',
+    role: 'nurse',
+    status: 'on-duty',
+    shift: '07:00 – 15:00',
+    department: 'Dialysis Unit',
+    joinDate: '2022-09-20',
+    sessionsToday: 5,
+  },
+  {
+    id: 'st-005',
+    name: 'Tariq Al-Harbi',
+    initials: 'TH',
+    email: 'tariq@nephroos.com',
+    phone: '+966 55 200 2003',
+    role: 'nurse',
+    status: 'on-duty',
+    shift: '07:00 – 15:00',
+    department: 'Dialysis Unit',
+    joinDate: '2023-01-05',
+    sessionsToday: 5,
+  },
+  {
+    id: 'st-006',
+    name: 'Mona Al-Shehri',
+    initials: 'MS',
+    email: 'mona@nephroos.com',
+    phone: '+966 55 200 2004',
+    role: 'nurse',
+    status: 'on-leave',
+    shift: '15:00 – 23:00',
+    department: 'Dialysis Unit',
+    joinDate: '2022-04-18',
+  },
+  {
+    id: 'st-007',
+    name: 'Fahad Al-Qahtani',
+    initials: 'FQ',
+    email: 'fahad@nephroos.com',
+    phone: '+966 55 300 3001',
+    role: 'tech',
+    status: 'on-duty',
+    shift: '07:00 – 15:00',
+    department: 'Technical Services',
+    joinDate: '2023-07-12',
+  },
+  {
+    id: 'st-008',
+    name: 'Hessa Al-Mansouri',
+    initials: 'HM',
+    email: 'manager@nephroos.com',
+    phone: '+966 55 400 4001',
+    role: 'manager',
+    status: 'on-duty',
+    shift: '07:00 – 15:00',
+    department: 'Administration',
+    joinDate: '2020-11-01',
+  },
+  {
+    id: 'st-009',
+    name: 'Sarah Al-Ahmadi',
+    initials: 'SA',
+    email: 'admin@nephroos.com',
+    phone: '+966 55 400 4002',
+    role: 'billing',
+    status: 'on-duty',
+    shift: '08:00 – 16:00',
+    department: 'Finance',
+    joinDate: '2021-02-20',
+  },
+];
