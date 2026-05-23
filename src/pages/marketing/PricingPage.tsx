@@ -117,6 +117,19 @@ const addOns = [
   { name: 'Compliance Package', price: '1,299/mo', desc: 'PDPL audit, NPHIES compliance monitoring' },
 ];
 
+const annualDiscount = 0.15;
+
+const parseSarAmount = (amount: string) => Number(amount.replace(/,/g, ''));
+
+const formatSarAmount = (amount: number) =>
+  Math.round(amount).toLocaleString('en-US');
+
+const getAnnualMonthlyEquivalent = (monthlyPrice: string) =>
+  formatSarAmount(parseSarAmount(monthlyPrice) * (1 - annualDiscount));
+
+const getAnnualTotal = (monthlyPrice: string) =>
+  formatSarAmount(parseSarAmount(monthlyPrice) * 12 * (1 - annualDiscount));
+
 export default function PricingPage() {
   const [annual, setAnnual] = useState(false);
 
@@ -205,7 +218,7 @@ export default function PricingPage() {
                     <>
                       <span className="text-12 text-ink-400 font-medium">SAR</span>
                       <span className="text-30 font-semibold text-ink-900 data-mono tracking-[-0.02em]">
-                        {annual ? Math.round(parseInt(tier.priceEn) * 0.85).toLocaleString() : tier.price}
+                        {annual ? getAnnualMonthlyEquivalent(tier.priceEn) : tier.price}
                       </span>
                       <span className="text-12 text-ink-400">{tier.period}</span>
                     </>
@@ -215,6 +228,15 @@ export default function PricingPage() {
                     </span>
                   )}
                 </div>
+                {annual && tier.price !== 'Custom' && (
+                  <p className="mt-1 text-11 text-ink-400">
+                    Billed SAR{' '}
+                    <span className="data-mono text-ink-600">
+                      {getAnnualTotal(tier.priceEn)}
+                    </span>
+                    /year
+                  </p>
+                )}
               </div>
 
               <div className="flex-1">
