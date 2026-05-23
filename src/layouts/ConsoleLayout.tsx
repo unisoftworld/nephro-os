@@ -264,6 +264,8 @@ export default function ConsoleLayout() {
             <div className="flex items-center gap-1">
               <button
                 onClick={() => setNotificationsOpen(v => !v)}
+                aria-label="Notifications"
+                aria-expanded={notificationsOpen}
                 className="relative p-2 rounded-8 text-ink-300 hover:text-ink-500 hover:bg-ink-900/[0.04] transition-all"
               >
                 <Bell size={16} />
