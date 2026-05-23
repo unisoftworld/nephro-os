@@ -485,14 +485,14 @@ export default function HomePage() {
                 </blockquote>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-saline-500/20 flex items-center justify-center text-14 font-semibold text-saline-300">
-                    DM
+                    AH
                   </div>
                   <div>
                     <p className="text-13 font-medium text-white">
-                      Dr. Mohammed Al-Saeed
+                      Amr Hamza
                     </p>
                     <p className="text-12 text-white/50">
-                      Medical Director, Riyadh Kidney Care Center
+                      Medical Integration Architect, Riyadh KKESH
                     </p>
                   </div>
                 </div>
